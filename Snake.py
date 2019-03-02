@@ -1,5 +1,6 @@
 from SnakePiece import SnakePiece
 from Position import Position
+from Direction import Direction
 
 class Snake():
 
@@ -9,9 +10,34 @@ class Snake():
 
 	def __init__(self):
 		self.snakePieces = [];
-		self.position = Position(self.INIT_POS_X, self.INIT_POS_Y)
+		self.direction = Direction.RIGHT
 		for i in range(self.INIT_SIZE):
-			self.snakePieces.append(SnakePiece())
+			self.snakePieces.append(SnakePiece(self.INIT_POS_X-i*SnakePiece.WIDTH, self.INIT_POS_Y))
+
+	def getHead(self):
+		return self.snakePieces[0];
+
+	def move(self):
+		del snakePieces[-1]
+		head = snakePieces[0]
+		x = head.pos.x;
+		y = head.pos.y;
+		pos
+		if self.direction == Direction.LEFT:
+			pos = Position(x - self.WIDTH, y)
+		elif self.direction == Direction.UP:
+			pos = Position(x, y - self.HEIGHT)
+		elif self.direction == Direction.DOWN:
+			pos = Position(x, y + self.HEIGHT)
+		elif self.direction == Direction.RIGHT:
+			pos = Position(x + self.WIDTH, y);
+		self.snakePieces.insert(0, SnakePiece(pos.x, pos, y))
+
+	def update(self):
+		move()
+
+	def getSnakePieces(self):
+		return self.snakePieces
 
 
 	# List<Position> position = Array? (for basic case only need to add to the back, must be back because user input will change front.
