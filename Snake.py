@@ -22,7 +22,6 @@ class Snake:
 		head = self.snakePieces[0]
 		x = head.rect.x;
 		y = head.rect.y;
-		pos = None
 		if self.direction == Direction.LEFT:
 			x -= SnakePiece.SIZE
 		elif self.direction == Direction.UP:
