@@ -1,11 +1,7 @@
 import pygame
+from Item import Item
 
-class SnakePiece(pygame.sprite.Sprite):
-
-	SIZE = 30
-	INNER_SIZE = 40
-	INNER_X = 5
-	INNER_Y = 5
+class SnakePiece(pygame.sprite.Sprite, Item):
 
 	def createSurface(self):
 		surf = pygame.Surface((self.SIZE, self.SIZE))

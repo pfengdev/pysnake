@@ -2,11 +2,11 @@ from SnakePiece import SnakePiece
 from Direction import Direction
 from pygame.locals import *
 
-class Snake():
+class Snake:
 
 	INIT_SIZE = 3
 	INIT_POS_X = 400
-	INIT_POS_Y = 300
+	INIT_POS_Y = 400
 
 	def __init__(self):
 		self.snakePieces = [];

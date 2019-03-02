@@ -1,9 +1,14 @@
 import pygame
 from pygame.locals import *
 from Snake import Snake
+from SnakePiece import SnakePiece
+from SpawnFood import SpawnFood
+from GridInfo import GridInfo
 
 WIDTH = 800
-HEIGHT = 600
+HEIGHT = 800
+ROW_NUM = HEIGHT/SnakePiece.SIZE
+COL_NUM = WIDTH/SnakePiece.SIZE
 gameOver = False
 
 pygame.init()
@@ -12,8 +17,11 @@ window = pygame.display.set_mode((800, 600))
 background = pygame.Surface(window.get_size())
 background.fill((0,0,0))
 
+gridInfo = GridInfo((WIDTH, HEIGHT, ROW_NUM, COL_NUM))
 snake = Snake()
+spawnFood = SpawnFood(gridInfo)
 snakePieces = []
+food = []
 running = True
 
 def checkRunning(events):
@@ -29,6 +37,8 @@ def render():
 	window.blit(background, (0, 0))
 	for snakePiece in snake.getSnakePieces():
 		window.blit(snakePiece.surf, snakePiece.rect)
+	for f in food:
+		window.blit(f.surf, f.rect)
 	pygame.display.flip()
 
 def updateSnake():
@@ -46,6 +56,9 @@ while running:
 	running = checkRunning(events)
 	handleInput(events)
 	update()
+	if not food:
+		food.append(spawnFood.spawn(snake.getSnakePieces(), gridInfo))
+
 
 # gameLoop() {
 # 	while(!gameOver) {
@@ -60,25 +73,6 @@ while running:
 # 	}
 # 	displayGameOver();
 # }
-
-
-
-# Food spawnFood() {
-# 	int x;
-# 	int y;
-# 	boolean retry = true;
-# 	while (retry) {
-# 		Position.randPos(ROW_SIZE, COL_SIZE);
-# 		retry = false;
-# 		for (Position : snake.getPositions()) {
-# 			if (position.equals(coordinate)) {
-# 				retry = true;
-# 				break;
-# 			}
-# 		}
-# 	}
-# 	return new Food(position);
-# } 
 
 # checkSnakeEatFood() {
 # 	head = positions[0];

@@ -1,11 +1,12 @@
-class RegularFood implmenets Food {
-	private static final int SIZE = 1;
+import pygame
+from Food import Food
 
-	getImage() {
-		return image;
-	}
-
-	getSize() {
-		return SIZE;
-	}
-}
+class RegularFood(Food):
+	
+	def __init__(self, x, y):
+		super(Food, self).__init__()
+		self.surf = pygame.Surface((self.SIZE, self.SIZE))
+		self.surf.fill((0,0,0))
+		rect = (self.INNER_X, self.INNER_Y, self.INNER_SIZE, self.INNER_SIZE)
+		self.surf.fill((100, 0, 0), rect)
+		self.rect = self.surf.get_rect(left = x, top = y)

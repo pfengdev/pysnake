@@ -1,17 +1,30 @@
-interface Food {
-	State { NOT_EATEN ,EATEN, DONE }
+from enum import Enum
+from Item import Item
 
-	Food(Position) {
+class State(Enum):
+	INIT = 0
+	EATEN = 1
+	DONE = 2
 
-	}
+class Food(Item):
 
-	displayImage()/getImage();
+	def getAmount(self):
+		return self.amount
 
-	getSize();
+	def decrement(self):
+		if self.state == EATEN:
+			self.amount -= 1
+		if self.amount == 0:
+			self.state = self.DONE
 
-	changeStateToEaten(); //if eaten, then don't displayimage
+	def changeStateToEaten(self):
+		if self.state == self.INIT:
+			self.state = EATEN
 
-	decrement(); //change state to DONE when 0
+	def isStateDone(self):
+		return self.state == self.DONE
 
-	isStateDone();
-}
+
+	def __init__(self, amount):
+		self.state = INIT
+		self.amount = amount
