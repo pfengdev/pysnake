@@ -10,7 +10,7 @@ pygame.init()
 window = pygame.display.set_mode((800, 600))
 
 background = pygame.Surface(window.get_size())
-background.fill((100,0,0))
+background.fill((0,0,0))
 
 snake = Snake()
 snakePieces = []
@@ -30,8 +30,22 @@ def render():
 		window.blit(snakePiece.surf, snakePiece.rect)
 	pygame.display.flip()
 
+def isArrowKey(event):
+	return event.type == KEYDOWN and (event.key == K_w or event.key == K_s or event.key == K_a or event.key == K_d)
+
+def updateSnake():
+	for event in pygame.event.get():
+		if isArrowKey(event):
+			snake.handleInput(event.key)
+	snake.move()
+
+def update():
+	updateSnake()
+
+
 while running():
 	render()
+	update()
 
 # gameLoop() {
 # 	while(!gameOver) {

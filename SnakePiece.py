@@ -1,13 +1,21 @@
 import pygame
-from Position import Position
 
 class SnakePiece(pygame.sprite.Sprite):
 
-	WIDTH = 50
-	HEIGHT = 50
+	SIZE = 30
+	INNER_SIZE = 40
+	INNER_X = 5
+	INNER_Y = 5
 
-	def __init__(self, x, y):
+	def createSurface(self):
+		surf = pygame.Surface((self.SIZE, self.SIZE))
+		surf.fill((0, 0, 0))
+		rect = (self.INNER_X, self.INNER_Y, self.INNER_SIZE, self.INNER_SIZE)
+		surf.fill((255,255,255), rect)
+		return surf
+
+	def __init__(self, pos):
 		super(SnakePiece, self).__init__()
-		self.surf = pygame.Surface((self.WIDTH, self.HEIGHT))
-		self.surf.fill((255, 255, 255))
-		self.rect = self.surf.get_rect(left = x, top = y)
+		self.surf = self.createSurface()
+		self.rect = self.surf.get_rect(left = pos[0], top = pos[1])
+

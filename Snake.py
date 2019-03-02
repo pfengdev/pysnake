@@ -1,6 +1,6 @@
 from SnakePiece import SnakePiece
-from Position import Position
 from Direction import Direction
+from pygame.locals import *
 
 class Snake():
 
@@ -12,29 +12,36 @@ class Snake():
 		self.snakePieces = [];
 		self.direction = Direction.RIGHT
 		for i in range(self.INIT_SIZE):
-			self.snakePieces.append(SnakePiece(self.INIT_POS_X-i*SnakePiece.WIDTH, self.INIT_POS_Y))
+			self.snakePieces.append(SnakePiece((self.INIT_POS_X-i*SnakePiece.SIZE, self.INIT_POS_Y)))
 
 	def getHead(self):
 		return self.snakePieces[0];
 
 	def move(self):
-		del snakePieces[-1]
-		head = snakePieces[0]
-		x = head.pos.x;
-		y = head.pos.y;
-		pos
+		del self.snakePieces[-1]
+		head = self.snakePieces[0]
+		x = head.rect.x;
+		y = head.rect.y;
+		pos = None
 		if self.direction == Direction.LEFT:
-			pos = Position(x - self.WIDTH, y)
+			x -= SnakePiece.SIZE
 		elif self.direction == Direction.UP:
-			pos = Position(x, y - self.HEIGHT)
+			y -= SnakePiece.SIZE
 		elif self.direction == Direction.DOWN:
-			pos = Position(x, y + self.HEIGHT)
+			y += SnakePiece.SIZE
 		elif self.direction == Direction.RIGHT:
-			pos = Position(x + self.WIDTH, y);
-		self.snakePieces.insert(0, SnakePiece(pos.x, pos, y))
+			x += SnakePiece.SIZE
+		self.snakePieces.insert(0, SnakePiece((x, y)))
 
-	def update(self):
-		move()
+	def handleInput(self, key):
+		if key == K_w and self.direction != Direction.DOWN:
+			self.direction = Direction.UP
+		elif key == K_s and self.direction != Direction.UP:
+			self.direction = Direction.DOWN
+		elif key == K_a and self.direction != Direction.RIGHT:
+			self.direction = Direction.LEFT
+		elif key == K_d and self.direction != Direction.LEFT:
+			self.direction = Direction.RIGHT
 
 	def getSnakePieces(self):
 		return self.snakePieces
