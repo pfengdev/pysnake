@@ -14,9 +14,10 @@ background.fill((0,0,0))
 
 snake = Snake()
 snakePieces = []
+running = True
 
-def running():
-	for event in pygame.event.get():
+def checkRunning(events):
+	for event in events:
 		if event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
 				return False
@@ -30,21 +31,20 @@ def render():
 		window.blit(snakePiece.surf, snakePiece.rect)
 	pygame.display.flip()
 
-def isArrowKey(event):
-	return event.type == KEYDOWN and (event.key == K_w or event.key == K_s or event.key == K_a or event.key == K_d)
-
 def updateSnake():
-	for event in pygame.event.get():
-		if isArrowKey(event):
-			snake.handleInput(event.key)
 	snake.move()
 
 def update():
 	updateSnake()
 
+def handleInput(events):
+	snake.handleInput(events)
 
-while running():
+while running:
 	render()
+	events = pygame.event.get()
+	running = checkRunning(events)
+	handleInput(events)
 	update()
 
 # gameLoop() {

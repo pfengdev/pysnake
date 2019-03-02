@@ -33,15 +33,18 @@ class Snake():
 			x += SnakePiece.SIZE
 		self.snakePieces.insert(0, SnakePiece((x, y)))
 
-	def handleInput(self, key):
-		if key == K_w and self.direction != Direction.DOWN:
-			self.direction = Direction.UP
-		elif key == K_s and self.direction != Direction.UP:
-			self.direction = Direction.DOWN
-		elif key == K_a and self.direction != Direction.RIGHT:
-			self.direction = Direction.LEFT
-		elif key == K_d and self.direction != Direction.LEFT:
-			self.direction = Direction.RIGHT
+
+	def handleInput(self, events):
+		for event in events:
+			if event.type == KEYDOWN:
+				if event.key == K_w and self.direction != Direction.DOWN:
+					self.direction = Direction.UP
+				elif event.key == K_s and self.direction != Direction.UP:
+					self.direction = Direction.DOWN
+				elif event.key == K_a and self.direction != Direction.RIGHT:
+					self.direction = Direction.LEFT
+				elif event.key == K_d and self.direction != Direction.LEFT:
+					self.direction = Direction.RIGHT
 
 	def getSnakePieces(self):
 		return self.snakePieces
