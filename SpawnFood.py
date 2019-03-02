@@ -8,9 +8,6 @@ class SpawnFood:
 	def spawn(self, otherSprites, gridInfo):
 		x = random.randint(0, gridInfo.colNum) * SnakePiece.SIZE
 		y = random.randint(0, gridInfo.rowNum) * SnakePiece.SIZE
-		print(x)
-		print(" ")
-		print(y)
 		retry = True
 		while retry:
 			retry = False
