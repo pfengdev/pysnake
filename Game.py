@@ -12,7 +12,7 @@ COL_NUM = WIDTH/SnakePiece.SIZE
 gameOver = False
 
 pygame.init()
-window = pygame.display.set_mode((800, 600))
+window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 background = pygame.Surface(window.get_size())
 background.fill((0,0,0))
@@ -58,6 +58,7 @@ while running:
 	update()
 	if not food:
 		food.append(spawnFood.spawn(snake.getSnakePieces(), gridInfo))
+	pygame.time.wait(5)
 
 
 # gameLoop() {
