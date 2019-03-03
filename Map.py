@@ -14,3 +14,4 @@ class Map:
 
 	def getWalls(self):
 		return self.walls
+

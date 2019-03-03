@@ -73,25 +73,9 @@ class Snake:
 		self.move();
 
 
-	# List<Position> position = Array? (for basic case only need to add to the back, must be back because user input will change front.
-	# 	Process needs to do in order)
-
-	# List<Food> eatenFood = LinkedList(); //constant removal, removing is easier. although most of time only one foodList at a time
-
-	# DIRECTION { LEFT, UP, RIGHT, DOWN }
-
-	# collideSelf() {
-	# 	if (positions == null || positions.isEmpty()) {
-	# 		//something wrong
-	# 		//or is this unnecessary error?
-	# 	}
-	# 	Position head = positions.get(0);
-	# 	for (i = 1; i < positions.length; i++) {
-	# 		if head.equals(positions[i]) return true
-	# 	}
-	# 	return false
-	# }
-
-	# getPositions() {
-
-	# }
+	def collideSelf(self):
+		head = self.snakePieces[0]
+		for i in range(1, len(self.snakePieces)-1):
+			if head.rect.x == self.snakePieces[i].rect.x and head.rect.y == self.snakePieces[i].rect.y:
+				return True
+		return False

@@ -29,8 +29,13 @@ class Game:
 		self.running = True
 		self.gameOver = False
 		self.map = DefaultMap()
+		self.walls = pygame.sprite.Group()
+		for wall in self.map.getWalls():
+			self.walls.add(wall)
 
 	def checkRunning(self, events):
+		if self.gameOver:
+			return False
 		for event in events:
 			if event.type == KEYDOWN:
 				if event.key == K_ESCAPE:
@@ -45,7 +50,7 @@ class Game:
 			self.window.blit(snakePiece.surf, snakePiece.rect)
 		for f in self.foodList:
 			self.window.blit(f.surf, f.rect)
-		for wall in self.map.getWalls():
+		for wall in self.walls:
 			self.window.blit(wall.surf, wall.rect)
 		pygame.display.flip()
 
@@ -62,7 +67,7 @@ class Game:
 		if self.shouldSpawnFood():
 			otherSprites = [];
 			otherSprites.extend(self.snake.getSnakePieces())
-			otherSprites.extend(self.map.getWalls())
+			otherSprites.extend(self.walls)
 			newFood = self.foodCreator.createFood(otherSprites)
 			self.foodList.append(newFood)
 
@@ -75,6 +80,10 @@ class Game:
 			self.foodList.remove(food)
 			food.kill()
 
+	def checkCollisions(self):
+		if self.snake.collideSelf() or pygame.sprite.spritecollideany(self.snake.getHead(), self.walls):
+			self.gameOver = True
+
 	def run(self):
 		while self.running:
 			self.render()
@@ -84,16 +93,8 @@ class Game:
 			self.update()
 			self.checkSnakeEatFood()
 			self.spawnFood()
+			self.checkCollisions()
 			pygame.time.wait(5)
 
 game = Game()
 game.run()
-
-# checkSnakeDie() {
-# 	snake.collideSelf();
-# 	checkSnakeHitWall();
-# }
-
-# private checkSnakeHitWall() {
-# 	return head.x < 0 || head.x > COL_SIZE || head.y < 0 || head.y > ROW_SIZE;
-# }
