@@ -10,5 +10,5 @@ class RegularFood(Food):
 		self.surf = pygame.Surface((self.SIZE, self.SIZE))
 		self.surf.fill((0,0,0))
 		rect = (self.INNER_X, self.INNER_Y, self.INNER_SIZE, self.INNER_SIZE)
-		self.surf.fill((100, 0, 0), rect)
+		self.surf.fill((255, 0, 0), rect)
 		self.rect = self.surf.get_rect(left = x, top = y)

@@ -4,6 +4,8 @@ from Snake import Snake
 from SnakePiece import SnakePiece
 from FoodCreator import FoodCreator
 from GridInfo import GridInfo
+from DefaultMap import DefaultMap
+from Wall import Wall
 
 class Game:
 	WIDTH = 800
@@ -26,6 +28,7 @@ class Game:
 		self.foodList = []
 		self.running = True
 		self.gameOver = False
+		self.map = DefaultMap()
 
 	def checkRunning(self, events):
 		for event in events:
@@ -42,6 +45,8 @@ class Game:
 			self.window.blit(snakePiece.surf, snakePiece.rect)
 		for f in self.foodList:
 			self.window.blit(f.surf, f.rect)
+		for wall in self.map.getWalls():
+			self.window.blit(wall.surf, wall.rect)
 		pygame.display.flip()
 
 	def update(self):
@@ -55,7 +60,10 @@ class Game:
 
 	def spawnFood(self):
 		if self.shouldSpawnFood():
-			newFood = self.foodCreator.createFood(self.snake.getSnakePieces())
+			otherSprites = [];
+			otherSprites.extend(self.snake.getSnakePieces())
+			otherSprites.extend(self.map.getWalls())
+			newFood = self.foodCreator.createFood(otherSprites)
 			self.foodList.append(newFood)
 
 	def checkSnakeEatFood(self):
@@ -80,20 +88,6 @@ class Game:
 
 game = Game()
 game.run()
-
-# gameLoop() {
-# 	while(!gameOver) {
-# 		if (shouldSpawnFood) {
-# 			spawnFood();
-# 		}
-# 		moveSnake();
-# 		checkSnakeEatFood();
-# 		if (checkSnakeDie()) {
-# 			gameOver = true;
-# 		}
-# 	}
-# 	displayGameOver();
-# }
 
 # checkSnakeDie() {
 # 	snake.collideSelf();

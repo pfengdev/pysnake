@@ -7,7 +7,7 @@ class SnakePiece(pygame.sprite.Sprite, Item):
 		surf = pygame.Surface((self.SIZE, self.SIZE))
 		surf.fill((0, 0, 0))
 		rect = (self.INNER_X, self.INNER_Y, self.INNER_SIZE, self.INNER_SIZE)
-		surf.fill((255,255,255), rect)
+		surf.fill((0,255,0), rect)
 		return surf
 
 	def __init__(self, pos):
