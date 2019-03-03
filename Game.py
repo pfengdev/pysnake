@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from Snake import Snake
 from SnakePiece import SnakePiece
-from SpawnFood import SpawnFood
+from FoodCreator import FoodCreator
 from GridInfo import GridInfo
 
 class Game:
@@ -10,20 +10,22 @@ class Game:
 	HEIGHT = 800
 	ROW_NUM = HEIGHT/SnakePiece.SIZE
 	COL_NUM = WIDTH/SnakePiece.SIZE
-	gameOver = False
 
-	pygame.init()
-	window = pygame.display.set_mode((WIDTH, HEIGHT))
+	def __init__(self):
 
-	background = pygame.Surface(window.get_size())
-	background.fill((0,0,0))
+		pygame.init()
+		self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
-	gridInfo = GridInfo((WIDTH, HEIGHT, ROW_NUM, COL_NUM))
-	snake = Snake()
-	spawnFood = SpawnFood(gridInfo)
-	snakePieces = []
-	food = []
-	running = True
+		self.background = pygame.Surface(self.window.get_size())
+		self.background.fill((0,0,0))
+
+		self.gridInfo = GridInfo((self.WIDTH, self.HEIGHT, self.ROW_NUM, self.COL_NUM))
+		self.snake = Snake()
+		self.foodCreator = FoodCreator(self.gridInfo)
+		self.snakePieces = []
+		self.foodList = []
+		self.running = True
+		self.gameOver = False
 
 	def checkRunning(self, events):
 		for event in events:
@@ -38,25 +40,32 @@ class Game:
 		self.window.blit(self.background, (0, 0))
 		for snakePiece in self.snake.getSnakePieces():
 			self.window.blit(snakePiece.surf, snakePiece.rect)
-		for f in self.food:
+		for f in self.foodList:
 			self.window.blit(f.surf, f.rect)
 		pygame.display.flip()
 
-	def updateSnake(self):
-		self.snake.move()
-
 	def update(self):
-		self.updateSnake()
+		self.snake.update()
 
 	def handleInput(self, events):
 		self.snake.handleInput(events)
 
 	def shouldSpawnFood(self):
-		return not self.food
+		return not self.foodList
 
 	def spawnFood(self):
 		if self.shouldSpawnFood():
-			self.food.append(self.spawnFood.spawn(self.snake.getSnakePieces(), self.gridInfo))
+			newFood = self.foodCreator.createFood(self.snake.getSnakePieces())
+			self.foodList.append(newFood)
+
+	def checkSnakeEatFood(self):
+		head = self.snake.getSnakePieces()[0];
+		if self.foodList:
+			food = self.foodList[0]
+		if self.foodList and head.rect.x == self.foodList[0].rect.x and head.rect.y == self.foodList[0].rect.y:
+			self.snake.eat(food)
+			self.foodList.remove(food)
+			food.kill()
 
 	def run(self):
 		while self.running:
@@ -65,16 +74,12 @@ class Game:
 			self.running = self.checkRunning(events)
 			self.handleInput(events)
 			self.update()
+			self.checkSnakeEatFood()
+			self.spawnFood()
 			pygame.time.wait(5)
 
 game = Game()
 game.run()
-
-# self.checkSnakeEatFood()
-# def checkSnakeEatFood(self):
-# 	head = self.snake.getSnakePieces[0];
-# 	if head.rect.x == food[0].rect.x and head.rect.y == food[0].rect.y:
-# 		self.snake.eat(food)
 
 # gameLoop() {
 # 	while(!gameOver) {

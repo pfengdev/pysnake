@@ -3,8 +3,10 @@ from Food import Food
 
 class RegularFood(Food):
 	
+	AMOUNT = 1
+
 	def __init__(self, x, y):
-		super(Food, self).__init__()
+		super(RegularFood, self).__init__(self.AMOUNT)
 		self.surf = pygame.Surface((self.SIZE, self.SIZE))
 		self.surf.fill((0,0,0))
 		rect = (self.INNER_X, self.INNER_Y, self.INNER_SIZE, self.INNER_SIZE)

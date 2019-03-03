@@ -3,11 +3,14 @@ from Food import Food
 from RegularFood import RegularFood
 from SnakePiece import SnakePiece
 
-class SpawnFood:
+class FoodCreator:
 
-	def spawn(self, otherSprites, gridInfo):
-		x = random.randint(0, gridInfo.colNum) * SnakePiece.SIZE
-		y = random.randint(0, gridInfo.rowNum) * SnakePiece.SIZE
+	def __init__(self, gridInfo):
+		self.gridInfo = gridInfo
+
+	def createFood(self, otherSprites):
+		x = random.randint(0, self.gridInfo.colNum) * SnakePiece.SIZE
+		y = random.randint(0, self.gridInfo.rowNum) * SnakePiece.SIZE
 		retry = True
 		while retry:
 			retry = False
@@ -16,7 +19,4 @@ class SpawnFood:
 					retry = True
 					break
 					
-		return RegularFood(x, y);
-
-	def __init__(self, gridInfo):
-		self.gridInfo = gridInfo
+		return RegularFood(x, y)

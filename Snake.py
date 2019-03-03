@@ -1,6 +1,7 @@
+import pygame
+from pygame.locals import *
 from SnakePiece import SnakePiece
 from Direction import Direction
-from pygame.locals import *
 
 class Snake:
 
@@ -13,12 +14,18 @@ class Snake:
 		self.direction = Direction.RIGHT
 		for i in range(self.INIT_SIZE):
 			self.snakePieces.append(SnakePiece((self.INIT_POS_X-i*SnakePiece.SIZE, self.INIT_POS_Y)))
+		self.foodList = [];
+		self.doGrow = False
 
 	def getHead(self):
 		return self.snakePieces[0];
 
+	def grow(self):
+		if not self.doGrow:
+			del self.snakePieces[-1]
+		self.doGrow = False
+
 	def move(self):
-		del self.snakePieces[-1]
 		head = self.snakePieces[0]
 		x = head.rect.x;
 		y = head.rect.y;
@@ -31,6 +38,14 @@ class Snake:
 		elif self.direction == Direction.RIGHT:
 			x += SnakePiece.SIZE
 		self.snakePieces.insert(0, SnakePiece((x, y)))
+
+	def processFood(self):
+		if (self.foodList):
+			food = self.foodList[0]
+			food.decrement();
+			self.doGrow = True
+			if (food.isStateDone()):
+				self.foodList.remove(food);
 
 
 	def handleInput(self, events):
@@ -48,29 +63,22 @@ class Snake:
 	def getSnakePieces(self):
 		return self.snakePieces
 
+	def eat(self, food):
+		food.changeStateToEaten();
+		self.foodList.append(food);
+
+	def update(self):
+		self.processFood();
+		self.grow();
+		self.move();
+
 
 	# List<Position> position = Array? (for basic case only need to add to the back, must be back because user input will change front.
 	# 	Process needs to do in order)
 
-	# List<Food> eatenFood = LinkedList(); //constant removal, removing is easier. although most of time only one food at a time
+	# List<Food> eatenFood = LinkedList(); //constant removal, removing is easier. although most of time only one foodList at a time
 
 	# DIRECTION { LEFT, UP, RIGHT, DOWN }
-
-	# eat(Food food) {
-	# 	//changing the state of an object. good or bad? maybe return?
-	# 	food.changeStateToEaten();
-	# 	//should i make my own copy?
-	# 	eatenFood.add(food);
-	# }
-
-	# processFood() {
-	# 	if (eatenFood != null && !eatenFood.isEmpty()) {
-	# 		eatenFood.get(0).decrement();
-	# 		if (eatenFood.isDone()) {
-	# 			eatenFood.remove(0);
-	# 		}
-	# 	}
-	# }
 
 	# collideSelf() {
 	# 	if (positions == null || positions.isEmpty()) {
