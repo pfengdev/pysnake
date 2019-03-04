@@ -65,9 +65,11 @@ class Game:
 
 	def spawnFood(self):
 		if self.shouldSpawnFood():
-			otherSprites = [];
-			otherSprites.extend(self.snake.getSnakePieces())
-			otherSprites.extend(self.walls)
+			otherSprites = pygame.sprite.Group()
+			for snakePiece in self.snake.getSnakePieces():
+				otherSprites.add(snakePiece)
+			for wall in self.walls:
+				otherSprites.add(wall)
 			newFood = self.foodCreator.createFood(otherSprites)
 			self.foodList.append(newFood)
 

@@ -1,3 +1,4 @@
+import pygame
 import random
 from Food import Food
 from RegularFood import RegularFood
@@ -10,13 +11,14 @@ class FoodCreator:
 
 	def createFood(self, otherSprites):
 		retry = True
+		x = None
+		y = None
+		food = None
 		while retry:
-			x = random.randint(0, self.gridInfo.colNum) * SnakePiece.SIZE
-			y = random.randint(0, self.gridInfo.rowNum) * SnakePiece.SIZE
+			x = random.randint(0, self.gridInfo.colNum-1) * SnakePiece.SIZE
+			y = random.randint(0, self.gridInfo.rowNum-1) * SnakePiece.SIZE
 			retry = False
-			for otherSprite in otherSprites:
-				if otherSprite.rect.x == x and otherSprite.rect.y == y:
-					retry = True
-					break
-					
-		return RegularFood(x, y)
+			food = RegularFood(x, y)
+			if pygame.sprite.spritecollideany(food, otherSprites):
+				retry = True
+		return food
